@@ -54,7 +54,7 @@ BUILD		:= $(TOPDIR)
 
 SOURCE		:= source
 ROMFS       := game
-LOVEPOTION	:= $(LOVEPOTION_ELF)
+LOVEPOTION	:= $(LOVEPOTION_SWITCH)
 
 APP_TITLE	:= Löve Potion
 APP_AUTHOR	:= TurtleP
