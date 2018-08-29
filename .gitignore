@@ -4,6 +4,5 @@
 *.nso
 *.nro
 build/
-game/
 *.zip
 .vscode/
