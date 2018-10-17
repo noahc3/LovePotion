@@ -8,6 +8,8 @@ extern "C"
     #include <luaobj.h>
 }
 
+#define SDL_DISABLE_IMMINTRIN_H 1
+
 #include <string>
 
 #include <SDL.h>

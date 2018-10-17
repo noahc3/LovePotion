@@ -7,6 +7,10 @@
 #include <sys/stat.h>
 #include <dirent.h>
 
+extern "C" {
+    #include <archive.h>
+}
+
 string SAVE_DIR = "";
 string IDENTITY = "SuperGame";
 
@@ -292,6 +296,21 @@ int Filesystem::Remove(lua_State * L)
     return 0;
 }
 
+//love.filesystem.unzip
+int Filesystem::Unzip(lua_State * L)
+{
+    string source = string(luaL_checkstring(L, 1));
+    string dest = string(luaL_checkstring(L, 2));
+
+    Archive_ExtractZip(L, source.c_str(), dest.c_str());
+
+    string result = source + "Working...";
+
+    lua_pushstring(L, result.c_str());
+
+    return 1;
+}
+
 //End Löve2D Functions
 
 string Filesystem::GetSaveDirectory()
@@ -334,6 +353,7 @@ int Filesystem::Register(lua_State * L)
         { "remove",                 Remove            },
         { "setIdentity",            SetIdentity       },
         { "write",                  Write             },
+        { "unzip",                  Unzip             },
         { 0, 0 }
     };
 

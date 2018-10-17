@@ -34,6 +34,8 @@ namespace Filesystem
 
     int Remove(lua_State * L);
 
+    int Unzip(lua_State * L);
+
     //End Löve2D Functions
 
     extern std::string GetSaveDirectory();

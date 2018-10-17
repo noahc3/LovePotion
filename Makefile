@@ -46,6 +46,8 @@ SOURCES			:=	source \
 				source/modules \
 				source/socket \
 				source/socket/objects \
+				source/minizip \
+				source/nxshell \
 				$(LUASOCKET) \
 				$(SRC_OBJS) \
 				$(EXT_LIBS)
@@ -58,6 +60,8 @@ INCLUDES	:=	include \
 				include/modules \
 				include/socket \
 				include/socket/objects \
+				include/minizip \
+				include/nxshell \
 				$(LUASOCKET) \
 				$(INC_OBJS) \
 				$(EXT_LIBS)

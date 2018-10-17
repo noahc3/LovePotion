@@ -238,3 +238,17 @@ void Love::Exit(lua_State * L)
     Window::Exit();
     Graphics::Exit();
 }
+
+
+
+extern "C" int ForceDraw(lua_State * L)
+{
+    Graphics::Clear(L);
+    
+    if (luaL_dostring(L, LOVE_DRAW))
+        luaL_error(L, "%s", lua_tostring(L, -1));
+
+    Graphics::Present(L);
+
+    return 0;
+}
