@@ -73,7 +73,7 @@ int Filesystem::Read(lua_State * L)
 //love.filesystem.write
 int Filesystem::Write(lua_State * L)
 {
-    string path = GetSaveDirectory() + string(luaL_checkstring(L, 1));
+    string path = string(luaL_checkstring(L, 1));
 
     size_t length = 0;
     const char * data = luaL_checklstring(L, 2, &length);
@@ -104,7 +104,7 @@ int Filesystem::Write(lua_State * L)
 //love.filesystem.isFile
 int Filesystem::IsFile(lua_State * L)
 {
-    string path = Redirect(luaL_checkstring(L, 1));
+    string path = luaL_checkstring(L, 1);
 
     struct stat pathInfo;
     stat(path.c_str(), &pathInfo);
@@ -223,7 +223,7 @@ int Filesystem::GetIdentity(lua_State * L)
 //love.filesystem.createDirectory
 int Filesystem::CreateDirectory(lua_State * L)
 {
-    string path = GetSaveDirectory() + string(luaL_checkstring(L, 1));
+    string path = string(luaL_checkstring(L, 1));
 
     mkdir(path.c_str(), 0777);
 
@@ -289,7 +289,7 @@ int Filesystem::Load(lua_State * L)
 //love.filesystem.remove
 int Filesystem::Remove(lua_State * L)
 {
-    string path = GetSaveDirectory() + string(luaL_checkstring(L, 1));
+    string path = string(luaL_checkstring(L, 1));
 
     remove(path.c_str());
 
@@ -320,13 +320,7 @@ string Filesystem::GetSaveDirectory()
 
 string Filesystem::Redirect(const char * path)
 {
-    struct stat pathInfo;
-    int success = stat(path, &pathInfo);
-
-    if (success == 0)
-        return string(path);
-    else
-        return GetSaveDirectory() + string(path);
+    return string(path);
 }
 
 void Filesystem::Exit()

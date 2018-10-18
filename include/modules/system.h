@@ -21,6 +21,9 @@ namespace System
     int HasWifiConnection(lua_State * L);
     int GetWifiStrength(lua_State * L);
 
+    int BlockHomeButton(lua_State * L);
+    int UnblockHomeButton(lua_State * L);
+
     //End Löve2D Functions
 
     int Register(lua_State * L);

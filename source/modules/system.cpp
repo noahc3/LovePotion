@@ -139,6 +139,19 @@ int System::GetUsername(lua_State * L)
     return 1;
 }
 
+//love.system.blockHomeButton
+int System::BlockHomeButton(lua_State * L)
+{
+    appletBeginBlockingHomeButton(0);
+    return 0;
+}
+
+//love.system.unblockHomeButton
+int System::UnblockHomeButton(lua_State * L)
+{
+    appletEndBlockingHomeButton();
+    return 0;
+}
 //End Löve2D Functions
 
 void System::Exit()
@@ -161,6 +174,8 @@ int System::Register(lua_State * L)
         { "hasWifiConnection", HasWifiConnection },
         { "getRegion",         GetRegion         },
         { "getUsername",       GetUsername       },
+        { "blockHomeButton",   BlockHomeButton   },
+        { "unblockHomeButton", UnblockHomeButton },
         { 0, 0 },
     };
 
