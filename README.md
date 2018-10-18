@@ -1,21 +1,34 @@
 # Löve Potion
 
-Unofficial version of [LOVE2D](https://love2d.org/) for Nintendo Switch.
+LovePotion fork with unzip functionality added to Switch version.
 
-Please view the [wiki](https://github.com/TurtleP/LovePotion/wiki) to get started!
+See [the original repo](https://github.com/TurtleP/LovePotion) for details on LovePotion itself.
 
-Nightly builds are available at [doozer](https://doozer.io/TurtleP/LovePotion)
+### Unzip functionality
 
-[Credits](https://github.com/TurtleP/LovePotion/wiki/Credits)
+love.filesystem.unzip(string source, string destination)
 
-<p align="center">
-    <img src="https://doozer.io/badge/TurtleP/LovePotion/buildstatus/switch"/>
-    <img src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square"/>
-    <img src="https://img.shields.io/github/stars/TurtleP/LovePotion.svg?style=flat-square"/>
-    <img src="https://img.shields.io/github/issues/TurtleP/LovePotion.svg?style=flat-square"/>
-    <img src="https://img.shields.io/badge/version-1.0.2-blue.svg?style=flat-square"/>
-</p>
+unzip will update zipProgress and zipMax integer values with the number of the current file being worked on and the total number of files needing to be worked on once every second. It will also force a single UI refresh for progress bars and such.
 
-<p align="center">
-    <img src="https://i.imgur.com/PTACKcn.png"/>
-</p>
+Example:
+```lua
+function love.gamepadpressed(joy, button)
+    if button == "plus" then
+            love.filesystem.unzip("/switch/retroarch_installer/retroarch.zip", "/")
+    end
+end
+
+function love.draw() {
+    ...
+    
+    love.graphics.setColor(1, 1, 1)
+    printc( "Installing RetroArch (" .. (zipProgress + 1) .. "/" .. zipMax .. ") ", 640, 300, 1280 )
+    progressBar(240, 350, 800, 20, (zipProgress + 1), zipMax)
+    
+    ...
+}
+```
+
+### License
+
+License changed from MIT to GPL3 to comply with license for code used from [joel16's NX-Shell](https://github.com/joel16/NX-Shell)
