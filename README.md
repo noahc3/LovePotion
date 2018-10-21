@@ -16,7 +16,9 @@ See [the original repo](https://github.com/TurtleP/LovePotion) for details on Lo
 ### Unzip functionality
 
 love.filesystem.unzip(string source, string destination)
+
 callback unzipUpdate(int currentValue, int maxValue)
+
 callback unzipDone()
 
 The unzip function runs on another thread to keep the UI thread unblocked. The function will call unzipUpdate(int currentValue, int maxValue) each time a file is extracted, and unzipDone() when the extraction is complete.
