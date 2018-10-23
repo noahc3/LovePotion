@@ -7,9 +7,13 @@
 
 namespace Filesystem
 {
+    
+
     void Initialize();
 
     //Löve2D Functions
+
+    void proxy_Unzip();
 
     int Read(lua_State * L);
     int Write(lua_State * L);
@@ -46,3 +50,4 @@ namespace Filesystem
 
     void Exit();
 }
+

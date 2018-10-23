@@ -14,6 +14,13 @@ extern "C" {
 string SAVE_DIR = "";
 string IDENTITY = "SuperGame";
 
+struct unzipRequest {
+        const char* unzipSource;
+        const char* unzipDest;
+        lua_State * state;
+    } currentUnzipRequest;
+
+
 void Filesystem::Initialize()
 {
     Result ROMFS_INIT = romfsInit();
@@ -33,7 +40,6 @@ void Filesystem::Initialize()
 
     mkdir(SAVE_DIR.c_str(), 0777);
 }
-
 //Löve2D Functions
 
 //love.filesystem.read
@@ -296,20 +302,35 @@ int Filesystem::Remove(lua_State * L)
     return 0;
 }
 
-//love.filesystem.unzip
-int Filesystem::Unzip(lua_State * L)
-{
-    string source = string(luaL_checkstring(L, 1));
-    string dest = string(luaL_checkstring(L, 2));
+Result _newThread(ThreadFunc func) {
+    Thread thread;
+    Result res;
 
-    Archive_ExtractZip(L, source.c_str(), dest.c_str());
+    if (R_FAILED( res = threadCreate(&thread, func, nullptr, 0x2000, 0x2B, -2)))
+        return res;
+    if (R_FAILED( res = threadStart(&thread)))
+        return res;
 
-    string result = source + "Working...";
-
-    lua_pushstring(L, result.c_str());
-
-    return 1;
+    return 0;
 }
+
+void Filesystem::proxy_Unzip() {
+    Archive_ExtractZip(currentUnzipRequest.state, currentUnzipRequest.unzipSource, currentUnzipRequest.unzipDest);
+}
+
+//love.filesystem.unzip
+int Filesystem::Unzip(lua_State * L) {
+
+    currentUnzipRequest.unzipSource = luaL_checkstring(L, 1);
+    currentUnzipRequest.unzipDest = luaL_checkstring(L, 2);
+    currentUnzipRequest.state = L;
+
+    _newThread((ThreadFunc)proxy_Unzip);
+
+    return 0;
+}
+
+
 
 //End Löve2D Functions
 

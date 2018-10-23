@@ -11,6 +11,8 @@
 #include "lauxlib.h"
 #include <time.h>
 
+
+
 Result unzExtractCurrentFile(unzFile *unzHandle, int *path)
 {
 	Result res = 0;
@@ -100,32 +102,13 @@ Result unzExtractAll(lua_State * L, const char *src, unzFile *unzHandle)
 		return res;
 	}
 
-	//struct timespec start, check;
-
-	//clock_gettime(CLOCK_REALTIME, &start);
-
 	for (unsigned int i = 0; i < global_info.number_entry; i++)
 	{
-		//clock_gettime(CLOCK_REALTIME, &check);
 
-		//if (check.tv_sec - start.tv_sec > 0) {
-		//	clock_gettime(CLOCK_REALTIME, &start);
-
-			
-		//}
-
-		//update current zipProgress (current file)
-			char luaString1[500];
-			sprintf(luaString1, "zipProgress = %d", i);
-			luaL_dostring(L, luaString1);
-
-			//update zipMax (number of files)
-			char luaString2[500];
-			sprintf(luaString2, "zipMax = %d", global_info.number_entry);
-			luaL_dostring(L, luaString2);
-
-			//force a draw
-			ForceDraw(L);
+		//update callback
+		char luaString1[500];
+		sprintf(luaString1, "unzipUpdate(%d, %d)", i, global_info.number_entry);
+		luaL_dostring(L, luaString1);
 
 		if ((res = unzExtractCurrentFile(unzHandle, &path)) != UNZ_OK)
 			break;
@@ -134,12 +117,14 @@ Result unzExtractAll(lua_State * L, const char *src, unzFile *unzHandle)
 		{
 			if ((res = unzGoToNextFile(unzHandle)) != UNZ_OK) // Could not read next file.
 			{
+				luaL_dostring(L, "unzipDone()");
 				unzClose(unzHandle);
 				return res;
 			}
 		}
 	}
 
+	luaL_dostring(L, "unzipDone()");
 	return res;
 }
 
