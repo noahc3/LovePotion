@@ -12,6 +12,8 @@ See [the original repo](https://github.com/TurtleP/LovePotion) for details on Lo
     * LovePotion usually restricts file reading/writing to your NRO's directory (ex. you can only write to the /switch folder and subdirectories). This fork removes those restrictions, giving you full access to SDMC and ROMFS.
     * By default, paths without a specified mountpoint are redirected to the SD card. You can use mountpoints sdmc: or romfs: to specify which mount point to use (ex. romfs:/some/path.jpg)
  * Unzip functionality added
+ * Ability to block home button when hbmenu is run from a regular (non-applet) application (ex. Pokemon Quest exefs replacement, hbmenu .nsp)
+ * Access to romfsInit and romfsExit to allow nro overwriting.
 
 ### Unzip functionality
 
@@ -53,6 +55,23 @@ function love.draw()
     ...
 end
 ```
+
+### Blocking and Unblocking Home Button
+```lua
+love.system.blockHomeButton();
+love.system.unblockHomeButton();
+```
+
+Only works when run as a regular application (ex. Pokemon Quest hbmenu exefs replacement, installed hbmenu .nsp, nro2nsp)
+
+### romFS init and exit
+
+```lua
+love.filesystem.romfsInit()
+love.filesystem.romfsExit()
+```
+
+You usually cannot delete the .nro file because a read handle is open on it while romfs is initialized. This allows you to temporarily disable romfs if you want to overwrite the nro file (for example, for updating or self destructing).
 
 ### License
 
