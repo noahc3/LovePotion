@@ -330,7 +330,18 @@ int Filesystem::Unzip(lua_State * L) {
     return 0;
 }
 
+//love.filesystem.romfsExit
+int Filesystem::exitRomfs(lua_State * L) {
+    romfsExit();
+    return 0;
+}
 
+//love.filesystem.romfsInit
+int Filesystem::initRomfs(lua_State * L)
+{
+    romfsInit();
+    return 0;
+}
 
 //End Löve2D Functions
 
@@ -369,6 +380,8 @@ int Filesystem::Register(lua_State * L)
         { "setIdentity",            SetIdentity       },
         { "write",                  Write             },
         { "unzip",                  Unzip             },
+        { "romfsExit",              exitRomfs         },
+        { "romfsInit",              initRomfs         },
         { 0, 0 }
     };
 

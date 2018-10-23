@@ -40,6 +40,10 @@ namespace Filesystem
 
     int Unzip(lua_State * L);
 
+    int initRomfs(lua_State * L);
+
+    int exitRomfs(lua_State * L);
+
     //End Löve2D Functions
 
     extern std::string GetSaveDirectory();
