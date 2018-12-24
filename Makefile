@@ -44,10 +44,9 @@ SOURCES			:=	source \
 				source/common \
 				source/modules \
 				source/socket \
-				source/socket/objects \
 				source/minizip \
 				source/nxshell \
-				$(LUASOCKET) \
+				source/socket/objects \
 				$(SRC_OBJS) \
 				libraries/lua \
 				libraries/luaobj \
@@ -63,7 +62,6 @@ INCLUDES	:=	include \
 				include/socket/objects \
 				include/nxshell \
 				include/minizip \
-				$(LUASOCKET) \
 				$(INC_OBJS) \
 				libraries/lua \
 				libraries/luaobj \

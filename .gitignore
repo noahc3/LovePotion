@@ -12,3 +12,4 @@ Release
 *.sln
 *.vcxproj*
 *.7z
+x64
