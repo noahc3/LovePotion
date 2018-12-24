@@ -7,7 +7,8 @@ build/
 game/
 *.zip
 .vscode/
-*.vcxproj*
 .vs
 Release
 *.sln
+*.vcxproj*
+*.7z

@@ -160,7 +160,6 @@ int Filesystem::GetInfo(lua_State * L)
     struct stat pathInfo;
     int success = stat(path.c_str(), &pathInfo);
 
-    printf("%s\n", path.c_str());
     if (success != 0)
     {
         lua_pushnil(L);
@@ -347,7 +346,7 @@ int Filesystem::initRomfs(lua_State * L)
 
 string Filesystem::GetSaveDirectory()
 {
-    return SAVE_DIR;
+    return SAVE_DIR + "/";
 }
 
 string Filesystem::Redirect(const char * path)

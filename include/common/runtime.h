@@ -10,7 +10,7 @@ extern "C"
     #include <lualib.h>
     #include <lauxlib.h>
 
-    #include <compat-5.2.h>
+    #include <compat-5.3.h>
     #include <luaobj.h>
 }
 
@@ -62,15 +62,4 @@ using std::queue;
 
 extern FILE * logFile;
 
-static inline void writeLog(const string & data)
-{
-    fwrite((char *)data.data(), 1, data.length(), logFile);
-
-    fflush(logFile);
-}
-
-static inline void closeLog()
-{
-    if (logFile != NULL)
-        fclose(logFile);
-}
+#define LOG(fmt, ...) fprintf(logFile, "%s:%d:\n" fmt "\n", __PRETTY_FUNCTION__, __LINE__, ## __VA_ARGS__)

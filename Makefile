@@ -33,7 +33,6 @@ include $(DEVKITPRO)/libnx/switch_rules
 TARGET		:=    LovePotion
 BUILD		:=    build
 
-EXT_LIBS	:= $(sort $(dir $(wildcard libraries/*/)))
 INC_OBJS	:= $(sort $(dir $(wildcard include/objects/*/)))
 SRC_OBJS	:= $(sort $(dir $(wildcard source/objects/*/)))
 LUASOCKET	:= $(sort $(dir $(wildcard source/socket/objects/*/*)))
@@ -50,7 +49,9 @@ SOURCES			:=	source \
 				source/nxshell \
 				$(LUASOCKET) \
 				$(SRC_OBJS) \
-				$(EXT_LIBS)
+				libraries/lua \
+				libraries/luaobj \
+				$(LUASOCKET)
 
 DATA		:=	source/scripts \
 				source/scripts/nogame
@@ -60,26 +61,21 @@ INCLUDES	:=	include \
 				include/modules \
 				include/socket \
 				include/socket/objects \
-				include/minizip \
 				include/nxshell \
+				include/minizip \
 				$(LUASOCKET) \
 				$(INC_OBJS) \
-				$(EXT_LIBS)
+				libraries/lua \
+				libraries/luaobj \
+				$(LUASOCKET)
 
-EXEFS_SRC    :=    exefs_src
-ROMFS        :=    game
-
-#If we don't find the game, use No Game
-ifeq ($(wildcard $(CURDIR)/game/.*),)
-	ROMFS = $(NOGAMEDIR)
-endif
+EXEFS_SRC    := exefs_src
+#ROMFS        := game
 
 APP_TITLE		:= Löve Potion
 APP_AUTHOR		:= TurtleP
 APP_VERSION		:= 1.0
 APP_TITLEID		:= 1043
-
-ICON        := meta/icon.jpg
 
 #---------------------------------------------------------------------------------
 # options for code generation
@@ -96,7 +92,7 @@ CXXFLAGS    := $(CFLAGS) -fno-rtti -fexceptions -std=gnu++14
 ASFLAGS    :=    -g $(ARCH)
 LDFLAGS    =     --specs=$(DEVKITPRO)/libnx/switch.specs -g $(ARCH) -Wl,-Map,$(notdir $*.map)
 
-LIBS := -lcurl -lSDL2_mixer -lmodplug -lmpg123 -lvorbisidec -logg -lSDL2_ttf -lSDL2_gfx -lSDL2_image -lpng -ljpeg `sdl2-config --libs` `freetype-config --libs`
+LIBS := -lcurl -lSDL2_net -lSDL2_mixer -lmodplug -lmpg123 -lvorbisidec -logg -lSDL2_ttf -lSDL2_gfx -lSDL2_image -lpng -ljpeg `sdl2-config --libs` `freetype-config --libs`
 
 #---------------------------------------------------------------------------------
 # list of directories containing libraries, this must be the top level containing
@@ -186,7 +182,7 @@ all: $(BUILD)
 
 $(BUILD):
 	@[ -d $@ ] || mkdir -p $@
-	@$(MAKE) --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile
+	@$(MAKE) --no-print-directory --silent -C $(BUILD) -f $(CURDIR)/Makefile
 
 #---------------------------------------------------------------------------------
 clean:

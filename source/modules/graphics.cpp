@@ -173,7 +173,7 @@ int Graphics::GetColor(lua_State * L)
 //love.graphics.clear
 int Graphics::Clear(lua_State * L)
 {
-    SDL_SetRenderDrawColor(Window::GetRenderer(), backgroundColor.r, backgroundColor.g, backgroundColor.b, 255);
+    SDL_SetRenderDrawColor(Window::GetRenderer(), backgroundColor.r, backgroundColor.g, backgroundColor.b, 0);
     SDL_RenderClear(Window::GetRenderer());
 
     SDL_SetRenderDrawColor(Window::GetRenderer(), drawColor.r, drawColor.g, drawColor.b, drawColor.a);
@@ -224,22 +224,22 @@ int Graphics::Draw(lua_State * L)
     float rotation = luaL_optnumber(L, start + 2, 0);
 
     float scalarX = luaL_optnumber(L, start + 3, 1);
-    float scalarY = luaL_optnumber(L, start + 4, 1);
+    float scalarY = luaL_optnumber(L, start + 4, scalarX);
 
     float offsetX = luaL_optnumber(L, start + 5, 0);
     float offsetY = luaL_optnumber(L, start + 6, 0);
 
     transformDrawable(&x, &y);
 
-    x -= offsetX;
-    y -= offsetY;
+    x += (offsetX * abs(scalarX));
+    y += (offsetY * abs(scalarY));
 
     rotation *= 180 / M_PI;
 
     if (quad != nullptr)
-        drawable->Draw(quad->GetViewport(), x, y, rotation, scalarX, scalarY, drawColor);
+        drawable->Draw(NULL, quad->GetViewport(), x, y, rotation, scalarX, scalarY, drawColor);
     else
-        drawable->Draw(drawable->GetViewport(), x, y, rotation, scalarX, scalarY, drawColor);
+        drawable->Draw(NULL, drawable->GetViewport(), x, y, rotation, scalarX, scalarY, drawColor);
 
     return 0;
 }
@@ -313,7 +313,7 @@ int Graphics::Print(lua_State * L)
     if (currentFont == NULL)
         return 0;
 
-    currentFont->Print(text, x, y, rotation, 1280, "left", scalarX, scalarY, drawColor);
+    currentFont->Print(text, x, y, rotation, 1280, scalarX, scalarY, drawColor);
 
     return 0;
 }
@@ -348,7 +348,12 @@ int Graphics::Printf(lua_State * L)
     if (currentFont == NULL)
         return 0;
 
-    currentFont->Print(text, x, y, rotation, limit, align, scalarX, scalarY, drawColor);
+    if (align == "center")
+        x += (limit / 2);
+    else if (align == "right")
+        x += limit;
+
+    currentFont->Print(text, x, y, rotation, limit, scalarX, scalarY, drawColor);
 
     return 0;
 }
@@ -457,6 +462,8 @@ int Graphics::Circle(lua_State * L)
     float y = luaL_optnumber(L, 3, 0);
 
     float radius = luaL_checknumber(L, 4);
+
+    transformDrawable(&x, &y);
 
     if (mode == "fill")
         filledCircleRGBA(Window::GetRenderer(), x, y, radius, drawColor.r, drawColor.g, drawColor.b, drawColor.a);

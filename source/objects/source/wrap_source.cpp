@@ -1,8 +1,5 @@
 #include "common/runtime.h"
 
-#include <vorbis/codec.h>
-#include <vorbis/vorbisfile.h>
-
 #include "objects/source/source.h"
 #include "objects/source/wrap_source.h"
 
@@ -25,7 +22,7 @@ int sourceNew(lua_State * L)
 
     luaobj_setclass(L, CLASS_TYPE, CLASS_NAME);
 
-    Source * self = new (raw_self) Source(path, type);
+    new (raw_self) Source(path, type);
 
     return 1;
 }

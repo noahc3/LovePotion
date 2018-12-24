@@ -4,7 +4,7 @@ extern "C"
     #include <lualib.h>
     #include <lauxlib.h>
 
-    #include <compat-5.2.h>
+    #include <compat-5.3.h>
     #include <luaobj.h>
 }
 
@@ -47,6 +47,8 @@ extern "C"
 
 bool ERROR = false;
 bool LOVE_QUIT = false;
+
+FILE * logFile = fopen("sdmc:/LovePotion-Log.txt", "wb");
 
 int main(int argc, char * argv[])
 {
