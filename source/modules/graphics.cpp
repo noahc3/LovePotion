@@ -635,6 +635,20 @@ int Graphics::SetScissor(lua_State * L)
     return 0;
 }
 
+//love.graphics.getScissor
+int Graphics::GetScissor(lua_State * L)
+{
+    SDL_Rect scissor;
+    SDL_RenderGetClipRect(Window::GetRenderer(), &scissor);
+
+    lua_pushnumber(L, scissor.x);
+    lua_pushnumber(L, scissor.y);
+    lua_pushnumber(L, scissor.w);
+    lua_pushnumber(L, scissor.h);
+
+    return 4;
+}
+
 //love.graphics.push
 int Graphics::Push(lua_State * L)
 {
@@ -739,6 +753,7 @@ int Graphics::Register(lua_State * L)
         { "getHeight",          GetHeight          },
         { "getLineWidth",       GetLineWidth       },
         { "getRendererInfo",    GetRendererInfo    },
+        { "getScissor",         GetScissor         },
         { "getWidth",           GetWidth           },
         { "line",               Line               },
         { "newCanvas",          canvasNew          },

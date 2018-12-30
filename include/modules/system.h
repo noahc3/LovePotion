@@ -24,6 +24,10 @@ namespace System
     int BlockHomeButton(lua_State * L);
     int UnblockHomeButton(lua_State * L);
 
+    int InitializeRecording(lua_State * L);
+    int EnableRecording(lua_State * L);
+    int DisableRecording(lua_State * L);
+
     //End Löve2D Functions
 
     int Register(lua_State * L);

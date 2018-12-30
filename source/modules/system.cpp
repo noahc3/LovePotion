@@ -152,6 +152,29 @@ int System::UnblockHomeButton(lua_State * L)
     appletEndBlockingHomeButton();
     return 0;
 }
+
+//love.system.initializeRecording
+int System::InitializeRecording(lua_State * L)
+{
+    appletInitializeGamePlayRecording();
+    return 0;
+}
+
+//love.system.enableRecording
+int System::EnableRecording(lua_State * L)
+{
+    appletSetGamePlayRecordingState(true);
+    return 0;
+}
+
+//love.system.disableRecording
+int System::DisableRecording(lua_State * L)
+{
+    appletSetGamePlayRecordingState(false);
+    return 0;
+}
+
+
 //End Löve2D Functions
 
 void System::Exit()
@@ -166,16 +189,19 @@ int System::Register(lua_State * L)
 {
     luaL_Reg reg[] = 
     {
-        { "getPowerInfo",      GetPowerInfo      },
-        { "getProcessorCount", GetProcessorCount },
-        { "getOS",             GetOS             },
-        { "getLanguage",       GetLanguage       },
-        { "getWifiStrength",   GetWifiStrength   },
-        { "hasWifiConnection", HasWifiConnection },
-        { "getRegion",         GetRegion         },
-        { "getUsername",       GetUsername       },
-        { "blockHomeButton",   BlockHomeButton   },
-        { "unblockHomeButton", UnblockHomeButton },
+        { "getPowerInfo",        GetPowerInfo          },
+        { "getProcessorCount",   GetProcessorCount     },
+        { "getOS",               GetOS                 },
+        { "getLanguage",         GetLanguage           },
+        { "getWifiStrength",     GetWifiStrength       },
+        { "hasWifiConnection",   HasWifiConnection     },
+        { "getRegion",           GetRegion             },
+        { "getUsername",         GetUsername           },
+        { "blockHomeButton",     BlockHomeButton       },
+        { "unblockHomeButton",   UnblockHomeButton     },
+        { "initializeRecording", InitializeRecording   },
+        { "enableRecording",     EnableRecording       },
+        { "disableRecording",    DisableRecording      },
         { 0, 0 },
     };
 

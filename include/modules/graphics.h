@@ -46,6 +46,7 @@ namespace Graphics
     int Points(lua_State * L);
 
     int SetScissor(lua_State * L);
+    int GetScissor(lua_State * L);
 
     int GetRendererInfo(lua_State * L);
     int SetDefaultFilter(lua_State * L);
