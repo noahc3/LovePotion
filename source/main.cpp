@@ -40,7 +40,6 @@ extern "C"
 
 #include "boot_lua.h"
 
-#include "common/console.h"
 #include "common/types.h"
 #include "common/variant.h"
 #include "common/util.h"
@@ -48,7 +47,7 @@ extern "C"
 bool ERROR = false;
 bool LOVE_QUIT = false;
 
-FILE * logFile = fopen("sdmc:/LovePotion-Log.txt", "wb");
+FILE * logFile = fopen("sdmc:/LoveDebug.txt", "wb");
 
 int main(int argc, char * argv[])
 {

@@ -4,6 +4,8 @@
 
 #include "socket/common.h"
 
+#include <switch.h>
+
 typedef struct
 {
     double ox;
@@ -37,10 +39,16 @@ typedef enum
 
 typedef struct
 {
-    char buffer[SOCKET_BUFFERSIZE];
-    char ip[0x41];
-    int port;
-} Datagram;
+    char * buffer;
+    char ip[0x40];
+    int * port;
+} Packet;
+
+typedef struct
+{
+    u32 host;
+    u16 port;
+} IPAddress;
 
 typedef struct
 {
@@ -66,3 +74,5 @@ extern std::vector<const char *> FILE_MODES;
 extern std::vector<const char *> SOURCE_TYPES;
 
 extern std::vector<const char *> DRAW_MODES;
+
+extern std::vector<const char *> KEYBOARD_TYPES;
