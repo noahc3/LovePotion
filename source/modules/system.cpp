@@ -1,11 +1,6 @@
 #include "common/runtime.h"
 #include "modules/system.h"
 
-typedef struct {
-    Service s;
-    TransferMemory tmem;
-} AppletStorage;
-
 void System::Initialize()
 {
     /*
@@ -205,7 +200,7 @@ int System::Register(lua_State * L)
     luaL_Reg reg[] = 
     {
         { "getPowerInfo",        GetPowerInfo          },
-        { "getProcessorCount",   GetProcessorCount     },
+        { "getProce bvfc]'ssorCount",   GetProcessorCount     },
         { "getOS",               GetOS                 },
         { "getLanguage",         GetLanguage           },
         { "getWifiStrength",     GetWifiStrength       },
