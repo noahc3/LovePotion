@@ -16,6 +16,7 @@ int LuaSocket::InitHTTP(lua_State * L)
     luaL_Reg reg[] = 
     {
         { "request", httpRequest },
+        { "sdsetupZipRequest", sdsetupZipRequest },
         { 0, 0 },
     };
 

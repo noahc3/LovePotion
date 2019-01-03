@@ -37,6 +37,8 @@ namespace Filesystem
     int Load(lua_State * L);
 
     int Remove(lua_State * L);
+    
+    int RemoveSdsetupZip(lua_State * L);
 
     int Unzip(lua_State * L);
 
@@ -51,6 +53,8 @@ namespace Filesystem
     std::string Redirect(const char * path);
 
     int Register(lua_State * L);
+
+    extern "C" bool createSubfolder(const char* pathC);
 
     void Exit();
 }

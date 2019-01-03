@@ -1,6 +1,11 @@
 #include "common/runtime.h"
 #include "modules/system.h"
 
+typedef struct {
+    Service s;
+    TransferMemory tmem;
+} AppletStorage;
+
 void System::Initialize()
 {
     /*
@@ -174,8 +179,18 @@ int System::DisableRecording(lua_State * L)
     return 0;
 }
 
+//love.system.requestHomeMenu
+int System::RequestHomeMenu(lua_State * L)
+{
+    //libappletRequestHomeMenu();
+    //will enable once libnx 2.0.0 works with lp
+
+
+    return 0;
+}
 
 //End Löve2D Functions
+
 
 void System::Exit()
 {
@@ -202,6 +217,7 @@ int System::Register(lua_State * L)
         { "initializeRecording", InitializeRecording   },
         { "enableRecording",     EnableRecording       },
         { "disableRecording",    DisableRecording      },
+        { "requestHomeMenu",     RequestHomeMenu       },
         { 0, 0 },
     };
 

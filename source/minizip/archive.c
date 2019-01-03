@@ -10,6 +10,7 @@
 #include "lua.h"
 #include "lauxlib.h"
 #include <time.h>
+#include "interop.h"
 
 
 
@@ -26,7 +27,7 @@ Result unzExtractCurrentFile(unzFile *unzHandle, int *path)
 		return -1;
 	}
 
-	void *buf = (void *)malloc(bufsize);
+	void *buf = malloc(bufsize);
 	if (!buf)
 		return -2;
 
@@ -59,7 +60,8 @@ Result unzExtractCurrentFile(unzFile *unzHandle, int *path)
 		{
 			char c = *(filenameWithoutPath - 1);
 			*(filenameWithoutPath - 1) = '\0';
-			mkdir(write, 0777);
+			//mkdir(write, 0777);
+			createSubfolder(filename);
 			*(filenameWithoutPath - 1) = c;
 			out = fopen(write, "wb");
 		}
@@ -91,7 +93,7 @@ Result unzExtractAll(lua_State * L, const char *src, unzFile *unzHandle)
 {
 	Result res = 0;
 	int path = 0;
-	char *filename = Utils_Basename(src);
+	//char *filename = Utils_Basename(src);
 	
 	unz_global_info global_info;
 	memset(&global_info, 0, sizeof(unz_global_info));
@@ -109,7 +111,7 @@ Result unzExtractAll(lua_State * L, const char *src, unzFile *unzHandle)
 		char luaString1[500];
 		sprintf(luaString1, "unzipUpdate(%d, %d)", i, global_info.number_entry);
 		luaL_dostring(L, luaString1);
-
+		
 		if ((res = unzExtractCurrentFile(unzHandle, &path)) != UNZ_OK)
 			break;
 
@@ -117,30 +119,28 @@ Result unzExtractAll(lua_State * L, const char *src, unzFile *unzHandle)
 		{
 			if ((res = unzGoToNextFile(unzHandle)) != UNZ_OK) // Could not read next file.
 			{
-				luaL_dostring(L, "unzipDone()");
 				unzClose(unzHandle);
 				return res;
 			}
 		}
 	}
 
-	luaL_dostring(L, "unzipDone()");
 	return res;
 }
 
 Result Archive_ExtractZip(lua_State * L, const char *src, const char *dst)
 {
-	char tmpFile2[512];
-	char tmpPath2[512];
+	char tmpFile2[1024];
+	char tmpPath2[1024];
 
 	FS_MakeDir(dst);
 
 	strncpy(tmpPath2, "sdmc:", sizeof(tmpPath2));
-	strncat(tmpPath2, (char *)dst, (512 - strlen(tmpPath2) - 1));
+	strncat(tmpPath2, (char *)dst, (1024 - strlen(tmpPath2) - 1));
 	chdir(tmpPath2);
 	
 	strncpy(tmpFile2, "sdmc:", sizeof(tmpFile2));
-	strncat(tmpFile2, (char*)src, (512 - strlen(tmpFile2) - 1));
+	strncat(tmpFile2, (char*)src, (1024 - strlen(tmpFile2) - 1));
 
 	unzFile *unzHandle = unzOpen(tmpFile2); // Open zip file
 
@@ -149,6 +149,8 @@ Result Archive_ExtractZip(lua_State * L, const char *src, const char *dst)
 
 	Result res = unzExtractAll(L, src, unzHandle);
 	res = unzClose(unzHandle);
+
+	luaL_dostring(L, "unzipDone()");
 
 	return res;
 }

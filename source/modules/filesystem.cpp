@@ -20,6 +20,7 @@ struct unzipRequest {
         lua_State * state;
     } currentUnzipRequest;
 
+Thread unzipThread;
 
 void Filesystem::Initialize()
 {
@@ -294,20 +295,67 @@ int Filesystem::Load(lua_State * L)
 //love.filesystem.remove
 int Filesystem::Remove(lua_State * L)
 {
-    string path = string(luaL_checkstring(L, 1));
+    const char* path = luaL_checkstring(L, 1);
 
-    remove(path.c_str());
+    remove(path);
 
     return 0;
 }
 
+//love.filesystem.removeSdsetupZip
+int Filesystem::RemoveSdsetupZip(lua_State * L) {
+
+    if (remove("sdmc:/sdsetup.zip") == 0) {
+        lua_pushnumber(L, 0);
+    } else {
+        switch (errno) {
+            case EBUSY:
+                lua_pushnumber(L, 2);
+                break;
+            case EACCES:
+                lua_pushnumber(L, 3);
+                break;
+            case EAGAIN:
+                lua_pushnumber(L, 4);
+                break;
+            case ENOENT:
+                lua_pushnumber(L, 5);
+                break;
+            case EALREADY:
+                lua_pushnumber(L, 6);
+                break;
+            case EINPROGRESS:
+                lua_pushnumber(L, 7);
+                break;
+            case EPERM:
+                lua_pushnumber(L, 8);
+                break;
+            case ENODEV:
+                lua_pushnumber(L, 9);
+                break;
+            case ENXIO:
+                lua_pushnumber(L, 10);
+                break;
+            case EXDEV:
+                lua_pushboolean(L, 11);
+                break;
+            default:
+                lua_pushnumber(L, -1);
+                break;
+        }
+    }
+    
+
+    return 1;
+}
+
 Result _newThread(ThreadFunc func) {
-    Thread thread;
+    
     Result res;
 
-    if (R_FAILED( res = threadCreate(&thread, func, nullptr, 0x2000, 0x2B, -2)))
+    if (R_FAILED( res = threadCreate(&unzipThread, func, nullptr, 0x2000, 0x2B, -2)))
         return res;
-    if (R_FAILED( res = threadStart(&thread)))
+    if (R_FAILED( res = threadStart(&unzipThread)))
         return res;
 
     return 0;
@@ -315,6 +363,7 @@ Result _newThread(ThreadFunc func) {
 
 void Filesystem::proxy_Unzip() {
     Archive_ExtractZip(currentUnzipRequest.state, currentUnzipRequest.unzipSource, currentUnzipRequest.unzipDest);
+    return;
 }
 
 //love.filesystem.unzip
@@ -376,6 +425,7 @@ int Filesystem::Register(lua_State * L)
         { "newFile",                fileNew           },
         { "read",                   Read              },
         { "remove",                 Remove            },
+        { "removeSdsetupZip",       RemoveSdsetupZip  },
         { "setIdentity",            SetIdentity       },
         { "write",                  Write             },
         { "unzip",                  Unzip             },

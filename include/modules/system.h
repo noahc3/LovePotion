@@ -28,6 +28,8 @@ namespace System
     int EnableRecording(lua_State * L);
     int DisableRecording(lua_State * L);
 
+    int RequestHomeMenu(lua_State * L);
+
     //End Löve2D Functions
 
     int Register(lua_State * L);
