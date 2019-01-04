@@ -344,6 +344,16 @@ int Filesystem::initRomfs(lua_State * L)
     return 0;
 }
 
+//love.filesystem.setNextLoad    
+int Filesystem::SetNextLoad(lua_State * L)
+{
+    const char * path = luaL_checkstring(L, 1);
+
+    envSetNextLoad(path, path);
+
+    return 1;
+}
+
 //End Löve2D Functions
 
 string Filesystem::GetSaveDirectory()
@@ -383,6 +393,7 @@ int Filesystem::Register(lua_State * L)
         { "unzip",                  Unzip             },
         { "romfsExit",              exitRomfs         },
         { "romfsInit",              initRomfs         },
+        { "setNextLoad",            SetNextLoad       },
         { 0, 0 }
     };
 

@@ -46,6 +46,8 @@ namespace Filesystem
 
     int exitRomfs(lua_State * L);
 
+    int SetNextLoad(lua_State * L);
+
     //End Löve2D Functions
 
     extern std::string GetSaveDirectory();
