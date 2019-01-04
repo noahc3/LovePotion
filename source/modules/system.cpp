@@ -177,9 +177,7 @@ int System::DisableRecording(lua_State * L)
 //love.system.requestHomeMenu
 int System::RequestHomeMenu(lua_State * L)
 {
-    //libappletRequestHomeMenu();
-    //will enable once libnx 2.0.0 works with lp
-
+    libappletRequestHomeMenu();
 
     return 0;
 }
@@ -200,7 +198,7 @@ int System::Register(lua_State * L)
     luaL_Reg reg[] = 
     {
         { "getPowerInfo",        GetPowerInfo          },
-        { "getProce bvfc]'ssorCount",   GetProcessorCount     },
+        { "getProcessorCount",   GetProcessorCount     },
         { "getOS",               GetOS                 },
         { "getLanguage",         GetLanguage           },
         { "getWifiStrength",     GetWifiStrength       },

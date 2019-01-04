@@ -51,6 +51,7 @@ FILE * logFile = fopen("sdmc:/LoveDebug.txt", "wb");
 
 int main(int argc, char * argv[])
 {
+
     lua_State * L = luaL_newstate();
 
     luaL_openlibs(L);
@@ -61,7 +62,7 @@ int main(int argc, char * argv[])
     luaL_requiref(L, "love", Love::Initialize, 1);
 
     Love::InitModules(L);
-    Love::InitConstants(L);
+    Love::InitConstants(L, argv[0]);
 
     luaL_dobuffer(L, (char *)boot_lua, boot_lua_size, "boot");
 

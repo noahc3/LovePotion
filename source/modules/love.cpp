@@ -61,7 +61,7 @@ void Love::InitModules(lua_State * L)
     Joystick::Initialize(L);
 }
 
-void Love::InitConstants(lua_State * L)
+void Love::InitConstants(lua_State * L, char * nroPath)
 {
     lua_getglobal(L, "love");
 
@@ -87,6 +87,10 @@ void Love::InitConstants(lua_State * L)
     lua_setfield(L, -2, "_version_revision");
     lua_pushstring(L, Love::CODENAME.c_str());
     lua_setfield(L, -2, "_version_codename");
+
+    // nro path
+    lua_pushstring(L, nroPath);
+    lua_setfield(L, -2, "_nro_path");
 
     lua_pop(L, 1);
 }

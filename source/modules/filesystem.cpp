@@ -302,53 +302,6 @@ int Filesystem::Remove(lua_State * L)
     return 0;
 }
 
-//love.filesystem.removeSdsetupZip
-int Filesystem::RemoveSdsetupZip(lua_State * L) {
-
-    if (remove("sdmc:/sdsetup.zip") == 0) {
-        lua_pushnumber(L, 0);
-    } else {
-        switch (errno) {
-            case EBUSY:
-                lua_pushnumber(L, 2);
-                break;
-            case EACCES:
-                lua_pushnumber(L, 3);
-                break;
-            case EAGAIN:
-                lua_pushnumber(L, 4);
-                break;
-            case ENOENT:
-                lua_pushnumber(L, 5);
-                break;
-            case EALREADY:
-                lua_pushnumber(L, 6);
-                break;
-            case EINPROGRESS:
-                lua_pushnumber(L, 7);
-                break;
-            case EPERM:
-                lua_pushnumber(L, 8);
-                break;
-            case ENODEV:
-                lua_pushnumber(L, 9);
-                break;
-            case ENXIO:
-                lua_pushnumber(L, 10);
-                break;
-            case EXDEV:
-                lua_pushboolean(L, 11);
-                break;
-            default:
-                lua_pushnumber(L, -1);
-                break;
-        }
-    }
-    
-
-    return 1;
-}
-
 Result _newThread(ThreadFunc func) {
     
     Result res;
@@ -425,7 +378,6 @@ int Filesystem::Register(lua_State * L)
         { "newFile",                fileNew           },
         { "read",                   Read              },
         { "remove",                 Remove            },
-        { "removeSdsetupZip",       RemoveSdsetupZip  },
         { "setIdentity",            SetIdentity       },
         { "write",                  Write             },
         { "unzip",                  Unzip             },

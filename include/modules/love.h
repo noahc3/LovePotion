@@ -17,7 +17,7 @@ extern bool CLOSE_KEYBOARD;
 
         void InitModules(lua_State * L);
         
-        void InitConstants(lua_State * L);
+        void InitConstants(lua_State * L, char * nroPath);
 
         int GetVersion(lua_State * L);
 
