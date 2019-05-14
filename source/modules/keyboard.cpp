@@ -45,12 +45,12 @@ int Keyboard::ShowTextInput(lua_State * L)
     swkbdConfigMakePresetDefault(&keyboard);
     
     if (type == "standard")
-        keyboard.arg.arg.type = SwkbdType_Normal;
+        keyboard.arg.arg.arg.type = SwkbdType_Normal;
     else if (type == "numpad")
-        keyboard.arg.arg.type = SwkbdType_NumPad;
+        keyboard.arg.arg.arg.type = SwkbdType_NumPad;
 
-    keyboard.arg.arg.dicFlag = 1;
-    keyboard.arg.arg.passwordFlag = isPassword;
+    keyboard.arg.arg.arg.dicFlag = 1;
+    keyboard.arg.arg.arg.passwordFlag = isPassword;
 
     swkbdConfigSetOkButtonText(&keyboard, "OK");
 
